@@ -8,6 +8,7 @@ out/
 .DS_Store
 .vercel
 .tsbuildinfo
+*.tsbuildinfo
 next-env.d.ts
 .idea/
 .vscode/
