@@ -137,8 +137,10 @@ export function createContentStore(options = {}) {
         };
       },
       (post) => {
-        const acted = post.approvals.find((approval) => approval.timestamp?.startsWith(now().toISOString().slice(0, 10)));
-        const stage = acted?.stage || "";
+        const acted = [...post.approvals]
+          .filter((approval) => approval.status === decision && approval.timestamp)
+          .sort((a, b) => b.stage - a.stage)[0];
+        const stage = acted?.stage ?? "";
         return buildActivity({
           action: decision === "Approved" ? `Stage ${stage} approved` : `Stage ${stage} ${decision.toLowerCase()}`,
           actor: acted?.role || post.lastActor || "Reviewer",
